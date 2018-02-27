@@ -24,6 +24,11 @@ use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\plugin\PluginBase;
 
 class VModifier extends PluginBase implements Listener{
+    public const VERSION_COMMANDS = [
+        "/about", "/ver", "/version",
+        "/pocketmine:about", "/pocketmine:ver", "/pocketmine:version"
+        ];
+        
     /** @var string[] */
     private $message;
     
@@ -44,17 +49,7 @@ class VModifier extends PluginBase implements Listener{
     public function onPlayerCommandPreprocess(PlayerCommandPreprocessEvent $event) : void{
         $player = $event->getPlayer();
         $command = strtolower(explode(" ", $event->getMessage())[0]);
-        $commands = [
-            "about",
-            "ver",
-            "version"
-            ];
-        if($command === "/about" or
-           $command === "/ver" or
-           $command === "/version" or
-           $command === "/pocketmine:about" or
-           $command === "/pocketmine:ver" or
-           $command === "/pocketmine:version"){
+        if(in_array($command, self::VERSION_COMMANDS)){
             foreach($this->message as $line){
                 $player->sendMessage($line);
             }
